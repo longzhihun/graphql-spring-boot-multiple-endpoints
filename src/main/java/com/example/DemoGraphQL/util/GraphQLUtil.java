@@ -1,6 +1,9 @@
 package com.example.DemoGraphQL.util;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import graphql.GraphQL;
+import graphql.execution.preparsed.PreparsedDocumentEntry;
 import graphql.schema.GraphQLSchema;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +21,9 @@ public class GraphQLUtil {
     private GraphQLSchema schema;
 
     public GraphQL getGraphQL() {
+        Cache<String, PreparsedDocumentEntry> cache = Caffeine.newBuilder().maximumSize(10_000).build();
         if (graphQL == null) {
-            graphQL = newGraphQL(schema).build();
+            graphQL = newGraphQL(schema).preparsedDocumentProvider(cache::get).build();
         }
         return graphQL;
     }

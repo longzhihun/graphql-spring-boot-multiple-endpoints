@@ -22,11 +22,4 @@ public class BookController {
         return ResponseEntity.ok(result.getData());
     }
 
-    @PostMapping(value = "/query2")
-    public ResponseEntity query2(@RequestBody String query){
-        ExecutionResult result = graphQLUtil.getGraphQL().execute(GraphQLUtil.getQueryString(query));
-        return ResponseEntity.ok(result.getData());
-    }
-
-
 }
